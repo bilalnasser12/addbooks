@@ -13,8 +13,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ma.ac.uit.ensa.ssi.Booku.adapter.BookRecycler;
+import ma.ac.uit.ensa.ssi.Booku.composent.GridSpacingItemDecoration;
+import ma.ac.uit.ensa.ssi.Booku.model.Book;
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView books_view;
+    private List<Book> books = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
             }
             runOnUiThread(() -> dialog.dismiss());
         }).start();
+
+        books.add(new Book(1, "1", "1"));
+        books.add(new Book(2, "2", "2"));
+        books.add(new Book(3, "3", "3"));
+
+        books_view = findViewById(R.id.book_view);
+        books_view.setLayoutManager(new GridLayoutManager(this, 2));
+
+        int spacing = getResources().getDimensionPixelSize(R.dimen.book_grid_spacing);
+        books_view.addItemDecoration(new GridSpacingItemDecoration(2, spacing, true));
+        BookRecycler adapter = new BookRecycler(books);
+        books_view.setAdapter(adapter);
     }
 
     @Override
